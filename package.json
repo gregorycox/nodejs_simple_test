@@ -1,0 +1,17 @@
+{
+  "name": "nodejs_simple_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "cover": "istanbul cover _mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "mocha": "3.2.0",
+    "istanbul": "0.4.5"
+  }
+}
