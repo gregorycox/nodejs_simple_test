@@ -1,0 +1,53 @@
+---
+jobs:
+- name: build-docker-image
+  public: true
+  serial: true
+  plan:
+  - get: git-nodejs-simple-test
+    trigger: true
+  - put: docker-image
+    params:
+      build: git-nodejs-simple-test
+
+resources:
+- name: git-nodejs-simple-test
+  type: git
+  source:
+    uri: https://github.com/gregorycox/nodejs_simple_test.git
+    branch: develop
+    # private_key: {{github-private-key}}
+
+- name: docker-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-create-concourse-go-image}}
+
+
+# jobs:
+# - name: job-build
+#   public: true
+#   serial: true
+#   plan:
+#   - get: resource-nodejs-simple-test-repo
+#   - put: hello-world-docker-image
+#     params:
+#       build: resource-nodejs-simple-test-repo/35_push_docker_image/docker
+
+# resources:
+# - name: resource-nodejs-simple-test-repo
+#   type: git
+#   source:
+#     uri: https://github.com/gregorycox/nodejs_simple_test.git
+#     branch: develop
+
+# - name: hello-world-docker-image
+#   type: docker-image
+#   source:
+#     email: {{docker-hub-email}}
+#     username: {{docker-hub-username}}
+#     password: {{docker-hub-password}}
+#     repository: {{docker-hub-image-hello-world}}
