@@ -59,5 +59,6 @@ jobs:
   plan:
   - get: git-nodejs-simple-test-develop
     passed: [test-docker-image]
+    trigger: true
   - put: git-nodejs-simple-test
     params: {repository: git-nodejs-simple-test-develop}
