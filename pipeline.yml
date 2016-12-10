@@ -6,7 +6,7 @@ jobs:
   plan:
   - get: git-nodejs-simple-test
     trigger: true
-  - put: docker-image
+  - put: nodejs_simple_test_image_build
     params:
       build: git-nodejs-simple-test
 
@@ -14,14 +14,15 @@ resources:
 - name: git-nodejs-simple-test
   type: git
   source:
-    uri: https://github.com/gregorycox/nodejs_simple_test.git
+    uri: git@github.com:gregorycox/nodejs_simple_test.git
     branch: develop
+    private_key: {{private-repo-key}}
+    username: {{repo-username}}
 
-- name: docker-image
+- name: nodejs_simple_test_image_build
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
-    repository: {{docker-create-concourse-go-image}}
-
+    repository: gregorycox/nodejs_simple_test_build
