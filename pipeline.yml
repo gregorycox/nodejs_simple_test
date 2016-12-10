@@ -44,6 +44,6 @@ jobs:
         type: docker-image
         source: {repository: gregorycox/nodejs_simple_test_build}
       run:
-        path: pwd
+        path: ./node_modules/mocha/bin/mocha
 
 
