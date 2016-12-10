@@ -1,15 +1,4 @@
 ---
-jobs:
-- name: build-docker-image
-  public: true
-  serial: true
-  plan:
-  - get: git-nodejs-simple-test
-    trigger: true
-  - put: nodejs_simple_test_image_build
-    params:
-      build: git-nodejs-simple-test
-
 resources:
 - name: git-nodejs-simple-test
   type: git
@@ -26,3 +15,34 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: gregorycox/nodejs_simple_test_build
+
+
+
+jobs:
+- name: build-docker-image
+  public: true
+  serial: true
+  plan:
+  - get: git-nodejs-simple-test
+    trigger: true
+  - put: nodejs_simple_test_image_build
+    params:
+      build: git-nodejs-simple-test
+
+- name: test-docker-image
+  plan:
+  - get: nodejs_simple_test_image_build
+    passed: [build-docker-image]
+  - get: git-nodejs-simple-test
+    passed: [build-task-image]
+  - task: test-docker-image
+    image: nodejs_simple_test_image_build
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: gregorycox/nodejs_simple_test_build}
+      run:
+        path: node_modules/mocha/bin/mocha
+        args: ""
+
