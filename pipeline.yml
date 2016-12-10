@@ -17,6 +17,14 @@ resources:
     repository: gregorycox/nodejs_simple_test
     tag: build
 
+- name: git-nodejs-simple-test
+  type: git
+  source:
+    uri: git@github.com:gregorycox/nodejs_simple_test.git
+    branch: master
+    private_key: {{private-repo-key}}
+    username: {{repo-username}}
+
 jobs:
 - name: build-docker-image
   public: true
@@ -47,4 +55,9 @@ jobs:
       run:
         path: /usr/src/app/node_modules/mocha/bin/mocha
 
-
+- name: promote-nodejs_simple_test-repo
+  plan:
+  - get: git-nodejs-simple-test-develop
+    passed: [test-docker-image]
+  - put: git-nodejs-simple-test
+    params: {repository: git-nodejs-simple-test-develop}
