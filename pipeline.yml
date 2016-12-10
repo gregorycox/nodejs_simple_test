@@ -33,6 +33,7 @@ jobs:
   plan:
   - get: nodejs_simple_test_image_build
     passed: [build-docker-image]
+    trigger: true
   - get: git-nodejs-simple-test
     passed: [build-docker-image]
   - task: test-docker-image
