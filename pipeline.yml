@@ -14,9 +14,8 @@ resources:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
-    repository: gregorycox/nodejs_simple_test_build
-
-
+    repository: gregorycox/nodejs_simple_test
+    tag: build
 
 jobs:
 - name: build-docker-image
@@ -37,12 +36,14 @@ jobs:
   - get: git-nodejs-simple-test
     passed: [build-docker-image]
   - task: test-docker-image
-    image: nodejs_simple_test_image_build
     config:
       platform: linux
       image_resource:
         type: docker-image
-        source: {repository: gregorycox/nodejs_simple_test_build}
+        source: {repository: gregorycox/nodejs_simple_test, tag: build}
+      inputs:
+      - name: git-nodejs-simple-test
+        path: .
       run:
         path: /usr/src/app/node_modules/mocha/bin/mocha
 
