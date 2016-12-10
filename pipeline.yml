@@ -1,6 +1,6 @@
 ---
 resources:
-- name: git-nodejs-simple-test
+- name: git-nodejs-simple-test-develop
   type: git
   source:
     uri: git@github.com:gregorycox/nodejs_simple_test.git
@@ -22,18 +22,18 @@ jobs:
   public: true
   serial: true
   plan:
-  - get: git-nodejs-simple-test
+  - get: git-nodejs-simple-test-develop
     trigger: true
   - put: nodejs_simple_test_image_build
     params:
-      build: git-nodejs-simple-test
+      build: git-nodejs-simple-test-develop
 
 - name: test-docker-image
   plan:
   - get: nodejs_simple_test_image_build
     passed: [build-docker-image]
     trigger: true
-  - get: git-nodejs-simple-test
+  - get: git-nodejs-simple-test-develop
     passed: [build-docker-image]
   - task: test-docker-image
     config:
@@ -42,7 +42,7 @@ jobs:
         type: docker-image
         source: {repository: gregorycox/nodejs_simple_test, tag: build}
       inputs:
-      - name: git-nodejs-simple-test
+      - name: git-nodejs-simple-test-develop
         path: .
       run:
         path: /usr/src/app/node_modules/mocha/bin/mocha
