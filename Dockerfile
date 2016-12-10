@@ -1,7 +1,7 @@
 FROM alpine:3.4
 
 # Update
-RUN apk add --update nodejs
+RUN apk add --update nodejs bash
 
 # Create app directory
 RUN mkdir -p /usr/src/app
