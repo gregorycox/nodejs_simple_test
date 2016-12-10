@@ -34,7 +34,7 @@ jobs:
   - get: nodejs_simple_test_image_build
     passed: [build-docker-image]
   - get: git-nodejs-simple-test
-    passed: [build-task-image]
+    passed: [build-docker-image]
   - task: test-docker-image
     image: nodejs_simple_test_image_build
     config:
@@ -44,5 +44,5 @@ jobs:
         source: {repository: gregorycox/nodejs_simple_test_build}
       run:
         path: node_modules/mocha/bin/mocha
-        args: ""
+
 
