@@ -25,6 +25,15 @@ resources:
     private_key: {{private-repo-key}}
     username: {{repo-username}}
 
+- name: nodejs_simple_test_image_promote
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: gregorycox/nodejs_simple_test
+    tag: latest
+
 jobs:
 - name: build-docker-image
   public: true
@@ -62,4 +71,15 @@ jobs:
     trigger: true
   - put: git-nodejs-simple-test-master
     params: {repository: git-nodejs-simple-test-develop}
+
+- name: build-docker-image-master
+  public: true
+  serial: true
+  plan:
+  - get: git-nodejs-simple-test-master
+    passed: [promote-nodejs_simple_test-repo]
+    trigger: true
+  - put: nodejs_simple_test_image_promote
+    params:
+      build: git-nodejs-simple-test-master
 
