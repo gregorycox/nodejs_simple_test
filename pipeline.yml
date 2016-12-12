@@ -73,8 +73,6 @@ jobs:
     params: {repository: git-nodejs-simple-test-develop}
 
 - name: build-docker-image-master
-  public: true
-  serial: true
   plan:
   - get: git-nodejs-simple-test-master
     passed: [promote-nodejs_simple_test-repo]
