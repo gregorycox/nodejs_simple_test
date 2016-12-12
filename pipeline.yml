@@ -17,7 +17,7 @@ resources:
     repository: gregorycox/nodejs_simple_test
     tag: build
 
-- name: git-nodejs-simple-test
+- name: git-nodejs-simple-test-master
   type: git
   source:
     uri: git@github.com:gregorycox/nodejs_simple_test.git
@@ -60,6 +60,6 @@ jobs:
   - get: git-nodejs-simple-test-develop
     passed: [test-docker-image]
     trigger: true
-  - put: git-nodejs-simple-test
+  - put: git-nodejs-simple-test-master
     params: {repository: git-nodejs-simple-test-develop}
 
